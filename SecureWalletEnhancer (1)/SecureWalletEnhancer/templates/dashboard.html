@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Crypto Wallet 🎨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+                <span class="animated-emoji">🎨</span> Crypto Wallet
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active shake-on-hover" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link shake-on-hover" href="{{ url_for('profile') }}">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link shake-on-hover" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <div class="page-header pop-in">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-2">
+                        <span class="animated-emoji">👋</span> Welcome back, {{ display_name }}!
+                    </h2>
+                    <p class="text-white mb-0" style="font-weight: 600;">
+                        <span class="animated-emoji">🎉</span> Manage your crypto wallet securely
+                    </p>
+                </div>
+                {% if profile_picture %}
+                    <img src="{{ url_for('static', filename='../uploads/' + profile_picture) }}" alt="Profile" class="rounded-circle floating-icon" style="width: 70px; height: 70px; object-fit: cover;">
+                {% else %}
+                    <div class="icon-wrapper" style="margin: 0;">
+                        <span class="animated-emoji" style="font-size: 35px;">😊</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show pop-in" role="alert">
+                        <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' if category == 'error' else 'info-circle' }} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow h-100 pop-in" style="animation-delay: 0.1s;">
+                    <div class="card-body p-4">
+                        <h5 class="card-title">
+                            <span class="animated-emoji">💰</span> Wallet Balance
+                        </h5>
+                        <div class="balance-display">
+                            <div style="position: relative; z-index: 1;">
+                                <small style="opacity: 0.9; font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                                    <span class="animated-emoji">🔐</span> Current Balance
+                                </small>
+                                <h1 class="display-3 mb-3" id="balanceDisplay">{{ balance }}</h1>
+                                <p class="mb-3" style="font-size: 14px; font-weight: 700;">
+                                    <span class="animated-emoji">🛡️</span> Encrypted with Fernet
+                                </p>
+                                <button class="btn btn-light btn-sm shadow-sm shake-on-hover" onclick="decryptBalance()" style="border-radius: 15px; padding: 12px 24px; font-weight: 700;">
+                                    <i class="fas fa-eye me-2"></i>Decrypt Balance <span class="animated-emoji">✨</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-4 d-flex gap-2 flex-column">
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('add_funds') }}" class="btn btn-success flex-fill shake-on-hover">
+                                    <i class="fas fa-plus-circle me-2"></i>Add Funds <span class="animated-emoji">💸</span>
+                                </a>
+                                <a href="{{ url_for('withdraw') }}" class="btn btn-danger flex-fill shake-on-hover">
+                                    <i class="fas fa-minus-circle me-2"></i>Withdraw <span class="animated-emoji">💳</span>
+                                </a>
+                            </div>
+                            <a href="{{ url_for('transaction') }}" class="btn btn-primary shake-on-hover">
+                                <i class="fas fa-paper-plane me-2"></i>Send Crypto <span class="animated-emoji">🚀</span>
+                            </a>
+                            <a href="{{ url_for('history') }}" class="btn btn-info shake-on-hover">
+                                <i class="fas fa-history me-2"></i>Transaction History <span class="animated-emoji">📜</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow h-100 pop-in" style="animation-delay: 0.2s;">
+                    <div class="card-body p-4">
+                        <h5 class="card-title">
+                            <span class="animated-emoji">📊</span> Recent Transactions
+                        </h5>
+                        <div class="transaction-list" style="max-height: 380px; overflow-y: auto;">
+                            {% if transactions %}
+                                {% for transaction in transactions %}
+                                    <div class="transaction-item pop-in" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="icon-wrapper" style="width: 50px; height: 50px; font-size: 20px; margin: 0; background: {{ 'linear-gradient(135deg, #06FFA5, #00D9FF)' if transaction.type == 'Deposit' else 'linear-gradient(135deg, #FF6B35, #FF006E)' }};">
+                                                    <i class="fas fa-{{ 'arrow-down' if transaction.type == 'Deposit' else 'arrow-up' }}"></i>
+                                                </div>
+                                                <div>
+                                                    <strong style="font-weight: 700; color: var(--text-primary); font-size: 18px;">
+                                                        {{ transaction.type }} <span class="animated-emoji">{{ '💵' if transaction.type == 'Deposit' else '💸' }}</span>
+                                                    </strong>
+                                                    <small class="text-muted d-block" style="font-size: 13px; font-weight: 600;">
+                                                        <i class="fas fa-clock me-1"></i>{{ transaction.timestamp }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <strong class="text-{{ 'success' if transaction.type == 'Deposit' else 'danger' }}" style="font-size: 20px; font-weight: 700;">
+                                                {{ '+' if transaction.type == 'Deposit' else '-' }}{{ transaction.amount }}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="text-center py-5">
+                                    <span class="animated-emoji" style="font-size: 60px;">📭</span>
+                                    <p class="text-muted mt-3 mb-0 fw-bold">No transactions yet</p>
+                                    <small class="text-muted fw-semibold">Start by adding funds to your wallet! <span class="animated-emoji">🚀</span></small>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="stat-card text-center pop-in" style="animation-delay: 0.3s;">
+                    <div class="icon-wrapper mx-auto" style="background: linear-gradient(135deg, #3A86FF, #00D9FF);">
+                        <span class="animated-emoji" style="font-size: 35px;">🛡️</span>
+                    </div>
+                    <h6 class="fw-bold text-primary" style="font-size: 18px;">Security Status</h6>
+                    <p class="text-muted mb-0 fw-bold">
+                        <i class="fas fa-check-circle text-success me-1"></i>All systems secure <span class="animated-emoji">✅</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="stat-card text-center pop-in" style="animation-delay: 0.4s;">
+                    <div class="icon-wrapper mx-auto" style="background: linear-gradient(135deg, #06FFA5, #00D9FF);">
+                        <span class="animated-emoji" style="font-size: 35px;">🔐</span>
+                    </div>
+                    <h6 class="fw-bold text-success" style="font-size: 18px;">Encryption</h6>
+                    <p class="text-muted mb-0 fw-bold">
+                        <i class="fas fa-check-circle text-success me-1"></i>Fernet AES-128 <span class="animated-emoji">🔒</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="stat-card text-center pop-in" style="animation-delay: 0.5s;">
+                    <div class="icon-wrapper mx-auto" style="background: linear-gradient(135deg, #FFBE0B, #FF6B35);">
+                        <span class="animated-emoji" style="font-size: 35px;">⏰</span>
+                    </div>
+                    <h6 class="fw-bold text-warning" style="font-size: 18px;">Session Timeout</h6>
+                    <p class="text-muted mb-0 fw-bold">
+                        <i class="fas fa-clock me-1"></i>5 minutes <span class="animated-emoji">⏳</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow pop-in" style="animation-delay: 0.6s;">
+                    <div class="card-body p-4">
+                        <h5 class="card-title">
+                            <span class="animated-emoji">📝</span> Activity Audit Log
+                        </h5>
+                        <div class="audit-log" style="max-height: 250px; overflow-y: auto;">
+                            {% if logs %}
+                                {% for log in logs %}
+                                    <div class="slideIn">{{ log|trim }}</div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="text-center py-3">
+                                    <span class="animated-emoji" style="font-size: 40px;">📋</span>
+                                    <p class="text-muted mb-0 mt-2 fw-bold">No activity logs yet</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted fw-bold">
+                                <span class="animated-emoji">🔒</span> All user activities are securely logged and encrypted
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container text-center">
+            <div class="security-badge d-inline-flex floating-icon">
+                <span class="animated-emoji">🛡️</span>
+                <span>Secured with bcrypt & Fernet encryption | CY4053 Secure FinTech Application</span>
+                <span class="animated-emoji">✨</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function decryptBalance() {
+            const balanceDisplay = document.getElementById('balanceDisplay');
+            const originalContent = balanceDisplay.textContent;
+            
+            fetch('/decrypt_balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    balanceDisplay.innerHTML = '<span class="animated-emoji">💰</span> ' + data.balance + ' crypto <span class="animated-emoji">✨</span>';
+                    balanceDisplay.classList.add('rainbow-text');
+                    
+                    setTimeout(() => {
+                        balanceDisplay.textContent = '********';
+                        balanceDisplay.classList.remove('rainbow-text');
+                    }, 5000);
+                } else {
+                    alert('Failed to decrypt balance. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while decrypting balance.');
+            });
+        }
+    </script>
+</body>
+</html>

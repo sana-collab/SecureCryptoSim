@@ -1,0 +1,25 @@
+[2025-10-31 15:19:50] User: sana tehreem | Action: Failed login attempt
+[2025-10-31 15:21:17] User: sana tehreem | Action: User registered successfully
+[2025-10-31 15:21:36] User: sana tehreem | Action: Logged in successfully
+[2025-10-31 15:21:52] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:22:06] User: sana tehreem | Action: Added funds: 100.00 crypto
+[2025-10-31 15:22:17] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:22:23] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:22:24] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:22:42] User: sana tehreem | Action: Withdrew funds: 90.00 crypto
+[2025-10-31 15:22:46] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:22:47] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:42:29] User: sana tehreem | Action: Logged in successfully
+[2025-10-31 15:42:36] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:47:49] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:49:52] User: sana tehreem | Action: Logged out
+[2025-10-31 15:50:36] User: sana tehreem | Action: Logged in successfully
+[2025-10-31 15:50:45] User: sana tehreem | Action: Decrypted balance view
+[2025-10-31 15:50:56] User: sana tehreem | Action: Added funds: 100.00 crypto
+[2025-10-31 15:51:06] User: sana tehreem | Action: Decrypted balance view
+[2025-11-01 09:47:29] User: sanu | Action: User registered successfully
+[2025-11-01 09:47:45] User: sanu | Action: Failed login attempt
+[2025-11-01 09:47:55] User: sanu | Action: Failed login attempt
+[2025-11-01 09:48:03] User: sanu | Action: Failed login attempt
+[2025-11-01 09:48:11] User: sanu | Action: Failed login attempt
+[2025-11-01 09:48:19] User: sanu | Action: Account locked after 5 failed attempts

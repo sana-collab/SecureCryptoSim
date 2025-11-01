@@ -1,0 +1,147 @@
+Title: Secure Crypto Wallet Simulation (CY4053 – Secure FinTech App)
+Description:
+Build a Flask-based secure FinTech web application named Crypto Wallet Simulation that demonstrates all major cybersecurity concepts for CY4053 Assignment 2.
+
+🔐 Functional Requirements:
+
+User Registration & Login System
+
+Store usernames and hashed passwords using bcrypt.
+
+Validate password strength (min 8 chars, uppercase, lowercase, digit, symbol).
+
+Prevent duplicate usernames.
+
+Implement secure session management using Flask session.
+
+Dashboard (Wallet Home Page)
+
+Show user balance (encrypted in DB).
+
+Show recent transactions (deposit/withdraw).
+
+Display audit log of user activities.
+
+Add/Withdraw Crypto
+
+User inputs numeric amount.
+
+Validate for non-numeric or invalid inputs.
+
+Prevent SQL/script injection (<script>, ' OR 1=1 etc.)
+
+Encrypt transaction data before saving in database.
+
+Encryption/Decryption
+
+Use Fernet symmetric encryption (cryptography.fernet) to store balances securely.
+
+Provide a button for the user to “Decrypt Balance” temporarily to view.
+
+Profile Update Page
+
+Allow user to update email or display name (with validation).
+
+Prevent unauthorized access (only logged-in users can update their profile).
+
+Error Handling
+
+Use try-except blocks to catch errors.
+
+Do not expose internal stack traces.
+
+Show only generic user-friendly messages.
+
+Activity / Audit Logs
+
+Record each user’s login, logout, deposit, withdraw, and update events in a text file (audit_log.txt).
+
+Store timestamp + username + action.
+
+Session Management
+
+Automatically logout users after 5 minutes of inactivity (session expiry).
+
+Prevent access to dashboard without login.
+
+File Upload Validation (Optional Bonus)
+
+Allow user to upload a small profile picture.
+
+Only allow .jpg and .png files.
+
+Reject executable or invalid files.
+
+Secure Database
+
+Use SQLite (wallet.db) for simplicity.
+
+Store all sensitive data encrypted.
+
+Never store plain text passwords or balances.
+
+🧪 Manual Cybersecurity Testing (20 Tests Required)
+
+Prepare at least 20 manual tests with screenshots, including:
+
+SQL injection rejection
+
+Weak password detection
+
+Input validation (script tags, special chars, empty fields)
+
+Session expiration and logout
+
+Unauthorized dashboard access
+
+Error handling
+
+Duplicate registration prevention
+
+Password hashing & data encryption check
+
+Audit log verification
+
+File upload validation
+
+🧰 Technical Stack:
+
+Language: Python
+
+Framework: Flask
+
+Libraries: flask, bcrypt, cryptography, sqlite3, datetime, re, os
+
+Templates: HTML (Bootstrap 5 for styling)
+
+📂 Project Structure:
+/CryptoWalletApp
+├── main.py
+├── wallet.db
+├── audit_log.txt
+├── templates/
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── profile.html
+│   ├── add_funds.html
+│   ├── withdraw.html
+├── static/
+│   └── style.css
+├── requirements.txt
+
+🎯 Security Goals:
+
+Demonstrate Authentication, Authorization, Input Validation, Encryption, Session Security, Logging, and Error Handling.
+
+Must be testable manually for at least 20 cybersecurity scenarios.
+
+📤 Deliverables:
+
+Source code (main.py, templates, DB)
+
+Test_Cases.docx (20 test cases with screenshots)
+
+GitHub link or Replit link
+
+Optional video demo link
