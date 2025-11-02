@@ -10,3 +10,8 @@ bcrypt
 cryptography
 Flask
 Werkzeug
+streamlit
+bcrypt
+pandas
+datetime
+hashlib
